@@ -4,7 +4,7 @@ from kafka import KafkaProducer, KafkaConsumer
 
 def export_data(argv):
     topicname = "TestTopic"
-    kafkabroker = '10.0.0.4', '10.0.0.5', '10.0.0.6'
+    kafkabroker = ['10.0.0.4', '10.0.0.5', '10.0.0.6']
 
     if len(argv) < 1 | len(argv) > 2:
         print("Usage: kafka_write.py <Read[R]/Write[W]> <inputfile>")
