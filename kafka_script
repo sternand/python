@@ -11,11 +11,13 @@ def export_data(argv):
 
     if (argv[0] == "W"):
         # Define:
+        iterator = 0
         producer = KafkaProducer(bootstrap_servers=kafkabroker)  # Interne IP der Broker
         # Open local file and send
         with open(argv[1], "r") as file:
             for row in file:
-                producer.send(topicname, row)  # TopicName und dann Eintrag
+                producer.send(topicname, value=row, key=iterator)  # TopicName und dann Eintrag
+                iterator += 1
     else:
         # READ
         consumer = KafkaConsumer(bootstrap_servers=kafkabroker, auto_offset_reset='earliest')  # Interne IP der Broker
