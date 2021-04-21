@@ -18,8 +18,8 @@ def export_data(argv):
         with open(argv[1], "r") as file:
             for row in file:
                 producer.send(topicname, value=row.encode("utf-8"), key=str(iterator).encode("utf-8"))  # TopicName und dann Eintrag
-                iterator += 1
                 print("Wrote message with key " + iterator + "to Kafka")
+                iterator += 1    
     else:
         # READ
         consumer = KafkaConsumer(bootstrap_servers=kafkabroker, auto_offset_reset='earliest')  # Interne IP der Broker
