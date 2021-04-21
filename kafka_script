@@ -19,7 +19,7 @@ def export_data(argv):
     else:
         # READ
         consumer = KafkaConsumer(bootstrap_servers=kafkabroker, auto_offset_reset='earliest')  # Interne IP der Broker
-        consumer.subscribe([topicname])  # TopicName
+        consumer.subscribe(topicname)  # TopicName
         for msg in consumer:
             print(msg)
 
