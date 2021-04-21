@@ -25,7 +25,7 @@ def export_data(argv):
         consumer = KafkaConsumer(bootstrap_servers=kafkabroker, auto_offset_reset='earliest')  # Interne IP der Broker
         consumer.subscribe(topicname)  # TopicName
         for record in consumer:
-            print("Movie-content: " + record.value)
+            print("Movie-content: " + record.value.decode("utf-8"))
 
 
 if __name__ == '__main__':
