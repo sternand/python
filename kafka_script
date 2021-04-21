@@ -16,7 +16,7 @@ def export_data(argv):
         # Open local file and send
         with open(argv[1], "r") as file:
             for row in file:
-                producer.send(topicname, value=row, key=iterator)  # TopicName und dann Eintrag
+                producer.send(topicname, value=row.encode("utf-8"), key=iterator)  # TopicName und dann Eintrag
                 iterator += 1
     else:
         # READ
