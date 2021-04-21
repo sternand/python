@@ -6,8 +6,9 @@ def export_data(argv):
     topicname = "TestTopic"
     kafkabroker = ['10.0.0.4', '10.0.0.5', '10.0.0.6']
 
-    if len(argv) < 1 | len(argv) > 2:
+    if len(argv) < 1 or len(argv) > 2:
         print("Usage: kafka_write.py <Read[R]/Write[W]> <inputfile>")
+        sys.exit(2)
 
     if (argv[0] == "W"):
         # Define:
@@ -18,12 +19,13 @@ def export_data(argv):
             for row in file:
                 producer.send(topicname, value=row.encode("utf-8"), key=str(iterator).encode("utf-8"))  # TopicName und dann Eintrag
                 iterator += 1
+                print("Wrote message with key " + iterator + "to Kafka")
     else:
         # READ
         consumer = KafkaConsumer(bootstrap_servers=kafkabroker, auto_offset_reset='earliest')  # Interne IP der Broker
         consumer.subscribe(topicname)  # TopicName
-        for msg in consumer:
-            print(msg)
+        for record in consumer:
+            print("Movie-content: " + record.value)
 
 
 if __name__ == '__main__':
