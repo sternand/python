@@ -1,0 +1,30 @@
+import sys
+from kafka import KafkaProducer
+import json
+import time
+
+
+def export_data(argv):
+    topicname = "InsertTopic"
+    kafkabroker = ['localhost:9092']
+
+    if len(argv) < 1 or len(argv) > 2:
+        print("Usage: kafka_write.py <inputfile>")
+        sys.exit(2)
+
+    with open(argv[0], "r") as read_file:
+        data = json.load(read_file)
+
+    # Define:
+    iterator = 0
+    producer = KafkaProducer(bootstrap_servers=kafkabroker)  # Interne IP der Broker
+    # Open local file and send
+    for entry in data:
+        producer.send(topicname, value=entry.encode("utf-8"), key=str(iterator).encode("utf-8"))  # TopicName und dann Eintrag
+        print("Wrote message with key " + str(iterator) + "to Kafka")
+        iterator += 1
+        time.sleep(1)
+
+
+if __name__ == '__main__':
+    export_data(sys.argv[1:])
